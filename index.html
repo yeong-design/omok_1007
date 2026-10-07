@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>15x15 오목 (Gomoku)</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-section">
+                <h1>
+                    <span>⚪⚫ 오목 게임</span>
+                    <span class="badge-15">15×15 Freestyle</span>
+                </h1>
+            </div>
+            <div class="header-status">
+                <div id="current-turn-badge" class="turn-indicator-badge black-turn">
+                    <span class="turn-dot"></span>
+                    <span id="current-turn-text">흑돌 차례 (선공)</span>
+                </div>
+                <div id="move-count" class="move-count">총 착수: 0수</div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Board -->
+            <div class="board-wrapper">
+                <canvas id="board-canvas" width="600" height="600"></canvas>
+            </div>
+
+            <!-- Controls Panel -->
+            <aside class="control-panel">
+                <!-- Game Settings Card -->
+                <section class="panel-card">
+                    <h2>게임 모드 설정</h2>
+                    <div class="control-group">
+                        <label for="select-mode">대전 모드</label>
+                        <select id="select-mode" class="select-input">
+                            <option value="pvai" selected>🤖 플레이어 vs AI</option>
+                            <option value="pvp">👥 2인 로컬 대전 (PvP)</option>
+                        </select>
+                    </div>
+
+                    <div id="ai-settings" style="display: flex; flex-direction: column; gap: 12px;">
+                        <div class="control-group">
+                            <label for="select-player-color">플레이어 돌 선택</label>
+                            <select id="select-player-color" class="select-input">
+                                <option value="1" selected>⚫ 흑돌 (선공)</option>
+                                <option value="2">⚪ 백돌 (후공)</option>
+                            </select>
+                        </div>
+                        <div class="control-group">
+                            <label for="select-difficulty">AI 난이도</label>
+                            <select id="select-difficulty" class="select-input">
+                                <option value="easy">쉬움 (Easy)</option>
+                                <option value="medium" selected>보통 (Medium - Minimax D2)</option>
+                                <option value="hard">어려움 (Hard - Minimax D3)</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Actions Card -->
+                <section class="panel-card">
+                    <h2>조작 및 편의 기능</h2>
+                    <div class="btn-group-row">
+                        <button id="btn-undo" class="btn btn-secondary" title="한 수 무르기">↩️ 무르기</button>
+                        <button id="btn-redo" class="btn btn-secondary" title="다시하기">↪️ 다시하기</button>
+                    </div>
+                    <button id="btn-new-game" class="btn btn-primary">🔄 새 게임 시작</button>
+
+                    <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.06);">
+
+                    <label class="toggle-option">
+                        <span>수순 번호 표시</span>
+                        <input type="checkbox" id="toggle-numbers">
+                    </label>
+                    <label class="toggle-option">
+                        <span>착수 사운드</span>
+                        <input type="checkbox" id="toggle-sound" checked>
+                    </label>
+                </section>
+
+                <!-- Rule Info Card -->
+                <section class="panel-card">
+                    <h2>규칙 안내</h2>
+                    <div class="info-rules">
+                        <p>• <strong>자유 오목</strong>: 금수(3-3, 4-4, 장목) 제한 없이 먼저 가로, 세로, 대각선으로 5목 이상을 완성하면 승리합니다.</p>
+                        <p style="margin-top: 6px;">• 흑돌이 선공(첫 수)을 가집니다.</p>
+                    </div>
+                </section>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Win Modal -->
+    <div id="win-modal" class="modal-overlay">
+        <div class="modal-card">
+            <h3 id="modal-title">흑돌 승리!</h3>
+            <p id="modal-desc">5목을 먼저 완성하여 승리했습니다.</p>
+            <button id="btn-modal-restart" class="btn btn-primary" style="width: 100%;">새 게임 하기</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
